@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./App.css";
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState("case");
+  const [activeTab, setActiveTab] = useState("catalog");
 
   useEffect(() => {
     // Inject the ServiceNow embeddable module handler safely in React
