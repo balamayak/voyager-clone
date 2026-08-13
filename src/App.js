@@ -80,17 +80,17 @@ export default function App() {
 
           <div className="tabs">
             <button
-              className={`tab ${activeTab === "case" ? "active" : ""}`}
-              onClick={() => setActiveTab("case")}
-            >
-              <h3>Case Creation</h3>
-            </button>
-            <button
               className={`tab ${activeTab === "catalog" ? "active" : ""}`}
               onClick={() => setActiveTab("catalog")}
             >
               <h3>Catalog Submission</h3>
             </button>
+            <button
+              className={`tab ${activeTab === "case" ? "active" : ""}`}
+              onClick={() => setActiveTab("case")}
+            >
+              <h3>Case Creation</h3>
+            </button>            
           </div>
 
           <div className="snow-container">
