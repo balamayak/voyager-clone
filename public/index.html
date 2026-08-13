@@ -12,7 +12,7 @@
       authCallback: getTokenCallBack, /* Function which returns the auth token for the current user, required for auth setup*/
       module: '6009639397ee43102514b146f053af4a', /* LocalHost React Module*/
       pageName: document.title, /* Uses the browser's document title as the page name in User analytics experience*/
-      // cacheComponents: ["sn-embedx-case-form","sn-embedx-case-list","sn-embedx-case-view","sn-embedx-catalog-browse","sn-embedx-catalog-item-form","903894c1b742301035a36161de11a992","sn-embedx-kb-article-view","sn-embedx-object-list"] /* Pre-caches resources for improved performance. Update component list as per your usage */
+      cacheComponents: ["sn-embedx-case-form","sn-embedx-case-list","sn-embedx-case-view","sn-embedx-catalog-browse","sn-embedx-catalog-item-form","903894c1b742301035a36161de11a992","sn-embedx-kb-article-view","sn-embedx-object-list"] /* Pre-caches resources for improved performance. Update component list as per your usage */
     });
     function getTokenCallBack() {
       var idToken; /* Get the id token for the current user */
