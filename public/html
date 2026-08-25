@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        /* Base styling for the PDF */
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 12px;
+            color: #333;
+        }
+
+        /* Reusable table class for all sections */
+        .section-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px; /* Space between sections */
+        }
+
+        /* Header row styling */
+        .section-table th {
+            background-color: #002d62; /* Dark blue background */
+            color: #ffffff;
+            text-align: left;
+            padding: 6px 8px;
+            font-weight: normal;
+            border: 1px solid #a6a6a6;
+        }
+
+        /* Data cell styling */
+        .section-table td {
+            border: 1px solid #a6a6a6;
+            padding: 8px;
+            vertical-align: middle;
+        }
+
+        /* Gray box placeholders (Replace these spans with your ServiceNow variables) */
+        .placeholder {
+            display: inline-block;
+            background-color: #e6e7e8;
+            height: 14px;
+            min-width: 80px;
+            margin-left: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1> Voyager Fraud Case Form </h1>
+
+    <!-- SECTION A: ACCOUNT INFORMATION -->
+    <table class="section-table">
+        <thead>
+            <tr>
+                <th colspan="2">SECTION A: ACCOUNT INFORMATION</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style="width: 50%;">Card Number: <span class="placeholder"></span></td>
+                <td style="width: 50%;">Exp. Date: <span class="placeholder"></span></td>
+            </tr>
+            <tr>
+                <td>Customer Name: <span class="placeholder"></span></td>
+                <td>Business Phone: <span class="placeholder"></span></td>
+            </tr>
+            <tr>
+                <td>Customer Contact Name: <span class="placeholder"></span></td>
+                <td>Title: <span class="placeholder"></span></td>
+            </tr>
+            <tr>
+                <td colspan="2">Customer Address: <span class="placeholder" style="min-width: 200px;"></span></td>
+            </tr>
+            <tr>
+                <td colspan="2">Email Address: <span class="placeholder" style="min-width: 200px;"></span></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <table class="section-table">
+        <thead>
+            <tr>
+                <th colspan="2">SECTION A: ACCOUNT INFORMATION</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style="width: 50%;">Card Number: <span class="placeholder"></span></td>
+                <td style="width: 50%;">Exp. Date: <span class="placeholder"></span></td>
+            </tr>
+            <tr>
+                <td>Customer Name: <span class="placeholder"></span></td>
+                <td>Business Phone: <span class="placeholder"></span></td>
+            </tr>
+            <tr>
+                <td>Customer Contact Name: <span class="placeholder"></span></td>
+                <td>Title: <span class="placeholder"></span></td>
+            </tr>
+            <tr>
+                <td colspan="2">Customer Address: <span class="placeholder" style="min-width: 200px;"></span></td>
+            </tr>
+            <tr>
+                <td colspan="2">Email Address: <span class="placeholder" style="min-width: 200px;"></span></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- You can add SECTION B, SECTION C, etc. below using the same <table class="section-table"> structure -->
+
+</body>
+</html>

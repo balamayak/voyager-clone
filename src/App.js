@@ -10,7 +10,7 @@ export default function App() {
     script.type = "module";
     script.textContent = `
       import { getEmbeddables } from 'https://csmusnow.servicenowservices.com/uxasset/externals/sn_embeddable_core/index.jsdbx';
-      getEmbeddables(["sn-embedx-catalog-item-form","sn-embedx-case-form"]);
+      getEmbeddables(["sn-custom-embedx-voyager-catalog-item","sn-custom-embedx-voyager-catalog-item"]);
     `;
     script.onload = () => {
       console.log("ServiceNow embeddable loaded");
@@ -90,21 +90,21 @@ export default function App() {
               onClick={() => setActiveTab("case")}
             >
               <h3>Case Creation</h3>
-            </button>            
+            </button>
           </div>
 
           <div className="snow-container">
             {activeTab === "case" && (
-              <sn-embedx-case-form
-                sys-id="de45c412c312310015519f2974d3ae1b"
-                confirmation-text="Case submitted successfully!"
+              <sn-custom-embedx-voyager-catalog-item
+                sys-id="3c9609e31b768b50a79f5538624bcb5a"
+                confirmation-text="Request submitted successfully!"
                 confirmation-sub-text="Estimated resolution in 24 hours"
                 reference-number-label="Reference Number :"
                 primary-button-label="View details"
                 secondary-button-label="Browse services"
                 prefill-fields="{}"
                 custom-illustration-size="Auto"
-              ></sn-embedx-case-form>
+              ></sn-custom-embedx-voyager-catalog-item>
             )}
 
             {activeTab === "catalog" && (
