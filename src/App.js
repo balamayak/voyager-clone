@@ -9,7 +9,7 @@ export default function App() {
     const script = document.createElement("script");
     script.type = "module";
     script.textContent = `
-      import { getEmbeddables } from 'https://csmusnow.servicenowservices.com/uxasset/externals/sn_embeddable_core/index.jsdbx';
+      import { getEmbeddables } from 'https://csmusdev.servicenowservices.com/uxasset/externals/sn_embeddable_core/index.jsdbx';
       getEmbeddables(["sn-custom-embedx-voyager-catalog-item","sn-custom-embedx-voyager-catalog-item"]);
     `;
     script.onload = () => {
