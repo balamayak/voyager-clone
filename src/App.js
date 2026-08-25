@@ -83,7 +83,7 @@ export default function App() {
               className={`tab ${activeTab === "catalog" ? "active" : ""}`}
               onClick={() => setActiveTab("catalog")}
             >
-              <h3>Catalog Submission</h3>
+              <h3>Voyager Fraud Case Form</h3>
             </button>
             <button
               className={`tab ${activeTab === "case" ? "active" : ""}`}
@@ -94,7 +94,7 @@ export default function App() {
           </div>
 
           <div className="snow-container">
-            {activeTab === "case" && (
+            {activeTab === "catalog" && (
               <sn-custom-embedx-voyager-catalog-item
                 sys-id="3c9609e31b768b50a79f5538624bcb5a"
                 confirmation-text="Request submitted successfully!"
@@ -107,7 +107,7 @@ export default function App() {
               ></sn-custom-embedx-voyager-catalog-item>
             )}
 
-            {activeTab === "catalog" && (
+            {activeTab === "case" && (
               <sn-embedx-catalog-item-form
                 sys-id="56c62944c30102003d3b7bfaa2d3ae36"
                 confirmation-text="Request submitted successfully!"
