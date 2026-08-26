@@ -97,8 +97,8 @@ export default function App() {
             {activeTab === "catalog" && (
               <sn-custom-embedx-voyager-catalog-item
                 sys-id="3c9609e31b768b50a79f5538624bcb5a"
-                confirmation-text="Request submitted successfully!"
-                confirmation-sub-text="Estimated resolution in 24 hours"
+                confirmation-text="Document generated successfully!"
+                confirmation-sub-text="Please download the document, sign it, and upload it back to the system."
                 reference-number-label="Reference Number :"
                 primary-button-label="View details"
                 secondary-button-label="Browse services"
