@@ -1,24 +1,23 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import "./App.css";
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState("catalog");
+  // Create a reference to safely target the Web Component in the DOM
+  const catalogItemRef = useRef(null);
 
+  // 1. INITIALIZATION EFFECT: Loads the ServiceNow Core Engine once
   useEffect(() => {
-    // Inject the ServiceNow embeddable module handler safely in React
     const script = document.createElement("script");
     script.type = "module";
     script.textContent = `
       import { getEmbeddables } from 'https://csmusdev.servicenowservices.com/uxasset/externals/sn_embeddable_core/index.jsdbx';
-      getEmbeddables(["sn-custom-embedx-voyager-catalog-item","sn-custom-embedx-voyager-catalog-item"]);
+      // Load only your customized voyager component
+      getEmbeddables(["sn-custom-embedx-voyager-catalog-item"]);
     `;
-    script.onload = () => {
-      console.log("ServiceNow embeddable loaded");
-    };
-
-    script.onerror = () => {
-      console.error("Failed to load ServiceNow embeddable");
-    };
+    
+    script.onload = () => console.log("ServiceNow embeddable loaded");
+    script.onerror = () => console.error("Failed to load ServiceNow embeddable");
+    
     document.body.appendChild(script);
 
     return () => {
@@ -28,6 +27,51 @@ export default function App() {
     };
   }, []);
 
+  // 2. EVENT LISTENER EFFECT: Safely binds events to the component when it mounts
+  useEffect(() => {
+    const component = catalogItemRef.current;
+    
+    // If the component isn't rendered yet, exit early
+    if (!component) return;
+
+    // Define standard event handlers
+    const handleRecordCreated = (e) => {
+      const { table, record_sys_id } = e.detail.payload;
+      console.log("Record created:", table, record_sys_id);
+    };
+
+    const handleButtonClicked = (e) => {
+      const { table, record_sys_id, button_variant } = e.detail.payload;
+      const primaryURL = '/caseview'; 
+      const secondaryURL = '/browse'; 
+
+      if (button_variant === 'primary') {
+        // Corrected template literal syntax here (no escape characters)
+        const caseViewURL = `${primaryURL}?emb_table=${table}&emb_recordid=${record_sys_id}`;
+        window.open(caseViewURL, '_self'); 
+      } else {
+        window.open(secondaryURL, '_self');
+      }
+    };
+
+    const handleError = (e) => {
+      const { errorMessage, errorType } = e.detail.payload;
+      console.error("Component Error:", errorMessage, errorType);
+    };
+
+    // Attach native Web Component event listeners
+    component.addEventListener('SN_EMBEDX_CATALOG_ITEM_FORM#RECORD_CREATION_SUCCEEDED', handleRecordCreated);
+    component.addEventListener('SN_EMBEDX_CATALOG_ITEM_FORM#BUTTON_CLICKED', handleButtonClicked);
+    component.addEventListener('SN_EMBEDX_CATALOG_ITEM_FORM#COMPONENT_ERROR', handleError);
+
+    // Cleanup function to remove listeners when the component unmounts
+    return () => {
+      component.removeEventListener('SN_EMBEDX_CATALOG_ITEM_FORM#RECORD_CREATION_SUCCEEDED', handleRecordCreated);
+      component.removeEventListener('SN_EMBEDX_CATALOG_ITEM_FORM#BUTTON_CLICKED', handleButtonClicked);
+      component.removeEventListener('SN_EMBEDX_CATALOG_ITEM_FORM#COMPONENT_ERROR', handleError);
+    };
+  }, []); // Empty dependency array ensures this only runs once on mount
+
   return (
     <div className="app">
       {/* Top Header */}
@@ -36,7 +80,6 @@ export default function App() {
           <span className="bank-logo">usbank.</span>
           <span className="voyager-logo">VOYAGER</span>
         </div>
-
         <div className="header-icons">
           <div className="icon">💬</div>
           <div className="icon">📧</div>
@@ -52,24 +95,13 @@ export default function App() {
             <div className="account-name">RINA COBRAND 2</div>
             <div className="account-id">(850000233)</div>
           </div>
-
           <nav className="menu">
             <MenuItem title="Cards" />
             <MenuItem title="Drivers" />
             <MenuItem title="Vehicles" />
-
             <div className="divider" />
-
             <MenuItem title="Reports" />
             <MenuItem title="Billing" />
-            <MenuItem title="Users" />
-            <MenuItem title="Transactions" />
-            <MenuItem title="Organization Settings" />
-            <MenuItem title="Voyager+" />
-            <MenuItem title="Merchants" />
-            <MenuItem title="Voyager E-Invoice" />
-            <MenuItem title="Authorizations" />
-            <MenuItem title="API Access" />
             <MenuItem title="Support" />
           </nav>
         </aside>
@@ -77,48 +109,21 @@ export default function App() {
         {/* Main Content */}
         <main className="content">
           <h1>Hello, Balasubramanian</h1>
-
-          <div className="tabs">
-            <button
-              className={`tab ${activeTab === "catalog" ? "active" : ""}`}
-              onClick={() => setActiveTab("catalog")}
-            >
-              <h3>Voyager Fraud Case Form</h3>
-            </button>
-            <button
-              className={`tab ${activeTab === "case" ? "active" : ""}`}
-              onClick={() => setActiveTab("case")}
-            >
-              <h3>Case Creation</h3>
-            </button>
-          </div>
+          
+          <br />
 
           <div className="snow-container">
-            {activeTab === "catalog" && (
-              <sn-custom-embedx-voyager-catalog-item
-                sys-id="3c9609e31b768b50a79f5538624bcb5a"
-                confirmation-text="Document generated successfully!"
-                confirmation-sub-text="Please download the document, sign it, and upload it back to the system."
-                reference-number-label="Reference Number :"
-                primary-button-label="View details"
-                secondary-button-label="Browse services"
-                prefill-fields="{}"
-                custom-illustration-size="Auto"
-              ></sn-custom-embedx-voyager-catalog-item>
-            )}
-
-            {activeTab === "case" && (
-              <sn-embedx-catalog-item-form
-                sys-id="56c62944c30102003d3b7bfaa2d3ae36"
-                confirmation-text="Request submitted successfully!"
-                confirmation-sub-text="Estimated resolution in 24 hours"
-                reference-number-label="Reference Number :"
-                primary-button-label="View details"
-                secondary-button-label="Browse services"
-                prefill-fields="{}"
-                custom-illustration-size="Auto"
-              ></sn-embedx-catalog-item-form>
-            )}
+            <sn-custom-embedx-voyager-catalog-item
+              ref={catalogItemRef}
+              sys-id="3c9609e31b768b50a79f5538624bcb5a"
+              confirmation-text="Request submitted successfully!"
+              confirmation-sub-text="Estimated resolution in 24 hours"
+              reference-number-label="Reference Number :"
+              primary-button-label="View details"
+              secondary-button-label="Browse services"
+              prefill-fields="{}"
+              custom-illustration-size="Auto"
+            ></sn-custom-embedx-voyager-catalog-item>
           </div>
         </main>
       </div>
