@@ -34,22 +34,22 @@ export default function App() {
 
     // Define standard event handlers
     const handleRecordCreated = (e) => {
+      console.log(JSON.stringify(e));
       const { table, record_sys_id } = e.detail.payload;
       console.log("Record created:", table, record_sys_id);
     };
 
-    const handleButtonClicked = (e) => {
-      const { table, record_sys_id, button_variant } = e.detail.payload;
-      const primaryURL = '/caseview'; 
-      const secondaryURL = '/browse'; 
+    //const handleButtonClicked = (e) => {
+    //  const { table, record_sys_id, button_variant } = e.detail.payload;
+    //  const primaryURL = '/caseview'; 
+    //  const secondaryURL = '/browse'; 
 
-      if (button_variant === 'primary') {
-        const caseViewURL = `${primaryURL}?emb_table=${table}&emb_recordid=${record_sys_id}`;
-        window.open(caseViewURL, '_self'); 
-      } else {
-        window.open(secondaryURL, '_self');
-      }
-    };
+    //if (button_variant === 'primary') {
+    //  const caseViewURL = `${primaryURL}?emb_table=${table}&emb_recordid=${record_sys_id}`;
+    //  window.open(caseViewURL, '_self'); 
+    //} else {
+    //  window.open(secondaryURL, '_self');
+    //}
 
     const handleError = (e) => {
       const { errorMessage, errorType } = e.detail.payload;
@@ -72,14 +72,14 @@ export default function App() {
 
     // Attach native Web Component event listeners
     component.addEventListener('SN_EMBEDX_CATALOG_ITEM_FORM#RECORD_CREATION_SUCCEEDED', handleRecordCreated);
-    component.addEventListener('SN_EMBEDX_CATALOG_ITEM_FORM#BUTTON_CLICKED', handleButtonClicked);
+    //component.addEventListener('SN_EMBEDX_CATALOG_ITEM_FORM#BUTTON_CLICKED', handleButtonClicked);
     component.addEventListener('SN_EMBEDX_CATALOG_ITEM_FORM#COMPONENT_ERROR', handleError);
     component.addEventListener('SN_EMBEDX_CATALOG_ITEM_FORM#DOWNLOAD_CLICKED', handleDownloadClicked);
 
     // Cleanup function to remove listeners when the component unmounts
     return () => {
       component.removeEventListener('SN_EMBEDX_CATALOG_ITEM_FORM#RECORD_CREATION_SUCCEEDED', handleRecordCreated);
-      component.removeEventListener('SN_EMBEDX_CATALOG_ITEM_FORM#BUTTON_CLICKED', handleButtonClicked);
+      //component.removeEventListener('SN_EMBEDX_CATALOG_ITEM_FORM#BUTTON_CLICKED', handleButtonClicked);
       component.removeEventListener('SN_EMBEDX_CATALOG_ITEM_FORM#COMPONENT_ERROR', handleError);
       component.removeEventListener('SN_EMBEDX_CATALOG_ITEM_FORM#DOWNLOAD_CLICKED', handleDownloadClicked);
     };
