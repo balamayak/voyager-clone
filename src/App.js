@@ -34,7 +34,6 @@ export default function App() {
 
     // Define standard event handlers
     const handleRecordCreated = (e) => {
-      console.log(JSON.stringify(e));
       const { table, record_sys_id } = e.detail.payload;
       console.log("Record created:", table, record_sys_id);
     };
@@ -129,8 +128,8 @@ export default function App() {
             <sn-custom-embedx-voyager-catalog-item
               ref={catalogItemRef}
               sys-id="3c9609e31b768b50a79f5538624bcb5a"
-              confirmation-text="Request submitted successfully!"
-              confirmation-sub-text="Estimated resolution in 24 hours"
+              confirmation-text="Document generated successfully!"
+              confirmation-sub-text="Please download the document, sign it and upload it back to the system."
               reference-number-label="Reference Number :"
               primary-button-label="View details"
               secondary-button-label="Browse services"
