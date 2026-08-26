@@ -2,7 +2,6 @@ import React, { useEffect, useRef } from "react";
 import "./App.css";
 
 export default function App() {
-  // Create a reference to safely target the Web Component in the DOM
   const catalogItemRef = useRef(null);
 
   // 1. INITIALIZATION EFFECT: Loads the ServiceNow Core Engine once
@@ -31,7 +30,6 @@ export default function App() {
   useEffect(() => {
     const component = catalogItemRef.current;
     
-    // If the component isn't rendered yet, exit early
     if (!component) return;
 
     // Define standard event handlers
@@ -46,7 +44,6 @@ export default function App() {
       const secondaryURL = '/browse'; 
 
       if (button_variant === 'primary') {
-        // Corrected template literal syntax here (no escape characters)
         const caseViewURL = `${primaryURL}?emb_table=${table}&emb_recordid=${record_sys_id}`;
         window.open(caseViewURL, '_self'); 
       } else {
@@ -59,18 +56,34 @@ export default function App() {
       console.error("Component Error:", errorMessage, errorType);
     };
 
+    // --- NEW HANDLER FOR DOWNLOAD ---
+    const handleDownloadClicked = (e) => {
+      const { downloadUrl } = e.detail.payload;
+      
+      if (downloadUrl) {
+        // Prepend your specific ServiceNow instance URL to handle cross-origin downloads correctly
+        const instanceUrl = 'https://csmusdev.servicenowservices.com';
+        const fullDownloadUrl = downloadUrl.startsWith('http') ? downloadUrl : `${instanceUrl}${downloadUrl}`;
+        
+        // Open the download in a new tab securely
+        window.open(fullDownloadUrl, '_blank');
+      }
+    };
+
     // Attach native Web Component event listeners
     component.addEventListener('SN_EMBEDX_CATALOG_ITEM_FORM#RECORD_CREATION_SUCCEEDED', handleRecordCreated);
     component.addEventListener('SN_EMBEDX_CATALOG_ITEM_FORM#BUTTON_CLICKED', handleButtonClicked);
     component.addEventListener('SN_EMBEDX_CATALOG_ITEM_FORM#COMPONENT_ERROR', handleError);
+    component.addEventListener('SN_EMBEDX_CATALOG_ITEM_FORM#DOWNLOAD_CLICKED', handleDownloadClicked);
 
     // Cleanup function to remove listeners when the component unmounts
     return () => {
       component.removeEventListener('SN_EMBEDX_CATALOG_ITEM_FORM#RECORD_CREATION_SUCCEEDED', handleRecordCreated);
       component.removeEventListener('SN_EMBEDX_CATALOG_ITEM_FORM#BUTTON_CLICKED', handleButtonClicked);
       component.removeEventListener('SN_EMBEDX_CATALOG_ITEM_FORM#COMPONENT_ERROR', handleError);
+      component.removeEventListener('SN_EMBEDX_CATALOG_ITEM_FORM#DOWNLOAD_CLICKED', handleDownloadClicked);
     };
-  }, []); // Empty dependency array ensures this only runs once on mount
+  }, []); 
 
   return (
     <div className="app">
